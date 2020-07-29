@@ -3,7 +3,7 @@
 pg <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv')
 
 # ready, set, go! 
-# goal: to make the most beautiful viz I can in 30 minutes 
+# goal: to make coolest viz I can in 30 minutes 
 
 library(tidyverse)
 
