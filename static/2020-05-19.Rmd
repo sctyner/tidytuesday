@@ -1,0 +1,47 @@
+---
+title: "Tidy Tuesday"
+author: "Sam Tyner"
+date: "5/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Data 
+
+
+```{r}
+library(tidyverse)
+
+dat <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-19/vb_matches.csv")
+
+glimpse(dat)
+```
+
+
+```{r}
+dat %>% 
+  count(w_player1, w_player2, sort = T)
+
+player_info <- bind_rows(
+  dat %>% 
+  select(gender, w_player1:w_p2_country) %>% 
+    set_names(c('gender',"p1", "p1_birthdate", "p1_age", "p1_hgt", "p1_country", 
+                "p2", "p2_birthdate", "p2_age", "p2_hgt", "p2_country")), 
+    dat %>% 
+  select(gender, l_player1:l_p2_country) %>% 
+  set_names(c('gender',"p1", "p1_birthdate", "p1_age", "p1_hgt", "p1_country", 
+                "p2", "p2_birthdate", "p2_age", "p2_hgt", "p2_country")))
+
+library(tidygraph)
+library(ggraph)
+player_info %>% 
+  count(p1, p2, sort = T) %>% 
+  as_tbl_graph() -> player_network
+
+ggraph(player_network)
+```
+
+
