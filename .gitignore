@@ -1,11 +1,5 @@
-# History files
+.Rproj.user
 .Rhistory
-.Rapp.history
-
-# R project
-.Rproj
-
-# Session Data files
 .RData
 
 # Example code in package build process
@@ -42,3 +36,5 @@ data/2019/2019-03-19/iowa.rds
 
 # annoying mac files 
 *.DS_Store
+.Ruserdata
+
