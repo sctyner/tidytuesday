@@ -121,7 +121,12 @@ ingreds %>%
   geom_histogram(binwidth = 1, fill = "white", color = "black", size = .25) + 
   scale_x_continuous(name = "Number of Appearances by Ingredients", breaks = 1:15) +
   theme_bw() + 
+  labs(y = NULL, title = "Most ingredients in CHOPPED only appear once", 
+       subtitle = "Ingredient names are very specific: e.g. zucchini noodles are separate from zucchini",
+       caption = "Source: github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-08-25") + 
   theme(panel.grid.minor.x = element_blank())
+ggsave(filename = "data/2020/2020-08-25/plot2.png", width = 8, height = 4, device  = "png", units = "in")
+
 
 ingreds %>% 
   count(ingredients, sort = T) %>% 
