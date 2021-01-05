@@ -33,8 +33,10 @@ vignettes/*.pdf
 
 # large data files 
 data/2019/2019-03-19/iowa.rds
-
+data/2020/2020-08-25/cdc_foundation_foods*
+data/2020/2020-08-25/food-usda*
 # annoying mac files 
 *.DS_Store
 .Ruserdata
+
 
