@@ -1,0 +1,102 @@
+---
+title: "R-Ladies DC: Tidy Tuesday"
+date: 2021-01-05
+output: github_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, fig.align = "center", fig.height = 10)
+```
+
+```{r}
+library(tidyverse)
+# getting the data from the web
+# transit_cost <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-01-05/transit_cost.csv')
+
+# if you have it downloaded
+transit_cost <- read_csv("transit_cost.csv")
+```
+
+```{r}
+skimr::skim(transit_cost)
+
+# another way to do this: ktable?
+```
+
+```{r}
+glimpse(transit_cost)
+```
+
+## Cleaning data 
+
+```{r}
+transit_cost %>% 
+  mutate(real_cost = parse_number(real_cost)) %>% 
+  glimpse()
+
+transit_cost %>% 
+  tail(10)
+
+transit_cost <- transit_cost %>% 
+  filter(!is.na(e))
+```
+```{r}
+transit_cost <- transit_cost %>% 
+  mutate(across(.cols = c(start_year, end_year, tunnel_per,
+                          real_cost), parse_number))
+  
+```
+
+## Summaries By Country 
+
+```{r}
+# total cost 
+transit_cost %>% 
+  group_by(country) %>%
+  summarise(mean_cost = mean(real_cost, na.rm = T)) %>% 
+  arrange(mean_cost) %>% 
+  slice(1:5)
+  
+transit_cost %>% 
+  group_by(country) %>%
+  summarise(mean_cost = mean(real_cost, na.rm = T)) %>% 
+  arrange(desc(mean_cost)) %>% 
+  slice(1:5)
+# cost per km of rail laid 
+transit_cost %>% 
+  group_by(country) %>%
+  summarise(mean_cost = mean(cost_km_millions, na.rm = T)) %>% 
+  arrange(mean_cost) %>% 
+  slice(1:5)
+  
+
+transit_cost %>% 
+  group_by(country) %>%
+  summarise(mean_cost = mean(cost_km_millions, na.rm = T)) %>% 
+  arrange(desc(mean_cost)) %>% 
+  slice(1:5)
+  
+```
+
+```{r}
+transit_cost %>% 
+  ggplot() + 
+  geom_boxplot(aes(x = country, y = cost_km_millions)) + 
+  coord_flip()
+```
+```{r}
+transit_cost %>% 
+  mutate(country = as.factor(country),
+         country = fct_reorder(country, cost_km_millions, 
+                                   .fun = median)) %>% 
+  ggplot() + 
+  geom_boxplot(aes(x = country, 
+                               y = cost_km_millions)) + 
+  coord_flip()
+```
+
+
+
+
